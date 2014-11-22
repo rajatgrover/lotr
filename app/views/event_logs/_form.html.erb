@@ -1,0 +1,41 @@
+<%= form_for(@event_log) do |f| %>
+  <% if @event_log.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@event_log.errors.count, "error") %> prohibited this event_log from being saved:</h2>
+
+      <ul>
+      <% @event_log.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :event %><br />
+    <%= f.text_field :event %>
+  </div>
+  <div class="field">
+    <%= f.label :annotation %><br />
+    <%= f.text_field :annotation %>
+  </div>
+  <div class="field">
+    <%= f.label :reference_id %><br />
+    <%= f.number_field :reference_id %>
+  </div>
+  <div class="field">
+    <%= f.label :reference_type %><br />
+    <%= f.text_field :reference_type %>
+  </div>
+  <div class="field">
+    <%= f.label :created_at %><br />
+    <%= f.datetime_select :created_at %>
+  </div>
+  <div class="field">
+    <%= f.label :created_by %><br />
+    <%= f.number_field :created_by %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

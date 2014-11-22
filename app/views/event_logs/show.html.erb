@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Event:</b>
+  <%= @event_log.event %>
+</p>
+
+<p>
+  <b>Annotation:</b>
+  <%= @event_log.annotation %>
+</p>
+
+<p>
+  <b>Reference:</b>
+  <%= @event_log.reference_id %>
+</p>
+
+<p>
+  <b>Reference type:</b>
+  <%= @event_log.reference_type %>
+</p>
+
+<p>
+  <b>Created at:</b>
+  <%= @event_log.created_at %>
+</p>
+
+<p>
+  <b>Created by:</b>
+  <%= @event_log.created_by %>
+</p>
+
+
+<%= link_to 'Edit', edit_event_log_path(@event_log) %> |
+<%= link_to 'Back', event_logs_path %>

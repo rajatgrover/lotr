@@ -1,4 +1,7 @@
 Lotr::Application.routes.draw do
+  resources :event_logs
+
+
   resources :creatures
 
 
