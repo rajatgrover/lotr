@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @creature.name %>
+</p>
+
+<p>
+  <b>Latitude:</b>
+  <%= @creature.latitude %>
+</p>
+
+<p>
+  <b>Longitude:</b>
+  <%= @creature.longitude %>
+</p>
+
+<p>
+  <b>Is alive:</b>
+  <%= @creature.is_alive %>
+</p>
+
+<p>
+  <b>Has ring:</b>
+  <%= @creature.has_ring %>
+</p>
+
+
+<%= link_to 'Edit', edit_creature_path(@creature) %> |
+<%= link_to 'Back', creatures_path %>
