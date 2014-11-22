@@ -1,0 +1,35 @@
+<h1>Listing creature_histories</h1>
+
+<table>
+  <tr>
+    <th>Event log</th>
+    <th>Creature</th>
+    <th>Latitude</th>
+    <th>Longitude</th>
+    <th>Is alive</th>
+    <th>Has ring</th>
+    <th>Created at</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @creature_histories.each do |creature_history| %>
+  <tr>
+    <td><%= creature_history.event_log_id %></td>
+    <td><%= creature_history.creature_id %></td>
+    <td><%= creature_history.latitude %></td>
+    <td><%= creature_history.longitude %></td>
+    <td><%= creature_history.is_alive %></td>
+    <td><%= creature_history.has_ring %></td>
+    <td><%= creature_history.created_at %></td>
+    <td><%= link_to 'Show', creature_history %></td>
+    <td><%= link_to 'Edit', edit_creature_history_path(creature_history) %></td>
+    <td><%= link_to 'Destroy', creature_history, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Creature history', new_creature_history_path %>

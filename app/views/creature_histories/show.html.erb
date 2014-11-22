@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Event log:</b>
+  <%= @creature_history.event_log_id %>
+</p>
+
+<p>
+  <b>Creature:</b>
+  <%= @creature_history.creature_id %>
+</p>
+
+<p>
+  <b>Latitude:</b>
+  <%= @creature_history.latitude %>
+</p>
+
+<p>
+  <b>Longitude:</b>
+  <%= @creature_history.longitude %>
+</p>
+
+<p>
+  <b>Is alive:</b>
+  <%= @creature_history.is_alive %>
+</p>
+
+<p>
+  <b>Has ring:</b>
+  <%= @creature_history.has_ring %>
+</p>
+
+<p>
+  <b>Created at:</b>
+  <%= @creature_history.created_at %>
+</p>
+
+
+<%= link_to 'Edit', edit_creature_history_path(@creature_history) %> |
+<%= link_to 'Back', creature_histories_path %>

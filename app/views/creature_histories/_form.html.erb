@@ -1,0 +1,45 @@
+<%= form_for(@creature_history) do |f| %>
+  <% if @creature_history.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@creature_history.errors.count, "error") %> prohibited this creature_history from being saved:</h2>
+
+      <ul>
+      <% @creature_history.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :event_log_id %><br />
+    <%= f.number_field :event_log_id %>
+  </div>
+  <div class="field">
+    <%= f.label :creature_id %><br />
+    <%= f.number_field :creature_id %>
+  </div>
+  <div class="field">
+    <%= f.label :latitude %><br />
+    <%= f.text_field :latitude %>
+  </div>
+  <div class="field">
+    <%= f.label :longitude %><br />
+    <%= f.text_field :longitude %>
+  </div>
+  <div class="field">
+    <%= f.label :is_alive %><br />
+    <%= f.check_box :is_alive %>
+  </div>
+  <div class="field">
+    <%= f.label :has_ring %><br />
+    <%= f.check_box :has_ring %>
+  </div>
+  <div class="field">
+    <%= f.label :created_at %><br />
+    <%= f.datetime_select :created_at %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
