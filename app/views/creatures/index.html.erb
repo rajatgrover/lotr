@@ -1,7 +1,66 @@
+<%= link_to 'home', root_path %>
+<%= link_to "Creature History", creature_histories_path %>
+<%= link_to "Event Logs", event_logs_path %>
 <h1>Listing creatures</h1>
+<h3>
+  <% if Ring.instance.alone? %>
+      Ring is Alone.
+  <% else %>
+      Ring is with <%= Ring.instance.creature.name %>
+  <% end %>
+</h3>
+<h3> Ring's latitude: <%= Ring.instance.latitude %></h3>
+<h3> Ring's longitude: <%= Ring.instance.longitude %></h3>
+<%= link_to 'Create New Creature', new_creature_path %>
+<br />
+<br />
 
+<script type="text/javascript">
+    function showEventHelperForm(div_id, ev, cid) {
+        e=ev
+        if(div_id.startsWith('event_div') ) {
+            $('.event_td').children().hide()
+            e = $('#' + ev).val();
+
+            if(e == 'receive_ring') {
+                var r=confirm("Creature Id "+ cid + " " + e + ". Are you sure you want to do this ?")
+                if (r== true){
+                    $.ajax({
+                      type: "POST",
+                      url: "/creatures/execute_event",
+                      data: { "cid": cid, "event": e},
+                      success:function(data) {
+                        alert("Marked Creature Id " +cid +" " + e + ". Successfully. Please refresh the page.");
+                        return true
+                      },
+                      error: function(data){
+                        alert("Not able to mark Creature Id " +cid +" " + e);
+                        return false;
+                      }
+                    })
+                }
+            } else {
+                $("#" + "event_div" + cid + "_" + e).show()
+            }
+        } else {
+            $("#" + div_id).show();
+        }
+//        alert(div_id + ev + cid)
+    }
+</script>
+
+<% if @creatures.present? %>
+    <%= hidden_field_tag 'event', 'change_position'  %>
+    <%= hidden_field_tag 'cid', ''  %>
+    <input type="button" value="Change Ring Position" onclick="showEventHelperForm('bulk_event_div', 'change_position', '')"/>
+    <div id="bulk_event_div" style="display:none">
+      <%= render :partial => 'position_form', :locals => {:'@event'=> 'change_position', :'@cid' => ''} %>
+    </div>
+    <br />
+    <br/>
 <table>
   <tr>
+    <th>Id</th>
     <th>Name</th>
     <th>Latitude</th>
     <th>Longitude</th>
@@ -12,20 +71,52 @@
     <th></th>
   </tr>
 
-<% @creatures.each do |creature| %>
-  <tr>
-    <td><%= creature.name %></td>
-    <td><%= creature.latitude %></td>
-    <td><%= creature.longitude %></td>
-    <td><%= creature.is_alive %></td>
-    <td><%= creature.has_ring %></td>
-    <td><%= link_to 'Show', creature %></td>
-    <td><%= link_to 'Edit', edit_creature_path(creature) %></td>
-    <td><%= link_to 'Destroy', creature, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
+  <% @creatures.each do |creature| %>
+      <tr>
+        <td><%= creature.id %></td>
+        <td><%= creature.name %></td>
+        <td><%= creature.latitude %></td>
+        <td><%= creature.longitude %></td>
+        <td><%= creature.is_alive %></td>
+        <td><%= creature.has_ring %></td>
+        <td><%#= link_to 'Show', creature %></td>
+        <td><%#= link_to 'Edit', edit_creature_path(creature) %></td>
+        <td><%= hidden_field_tag 'event', 'change_position'  %></td>
+        <td><%= hidden_field_tag 'cid', ''  %></td>
+        <td>
+          <% if creature.is_alive %>
+              <%= select("#{creature.id}", "event", @events.map { |k,v|
+                #creature with ring cannot execute receive ring & can not goes away
+                #creature with different position as ring cannot execute receive ring
+                if (creature.has_ring? && [:receive_ring, :goes_away].include?(k)) || (k == :receive_ring && !creature.has_ring? && (creature.latitude.to_f != Ring.instance.latitude.to_f || creature.longitude.to_f != Ring.instance.longitude.to_f))
+                  ['-','-']
+                else
+                  [v, k]
+                end
+              }, {include_blank: '-- Select Event --'}, onchange: "showEventHelperForm('event_div#{creature.id}','#{creature.id}_event', '#{creature.id}')") %>
+          <% else %>
+              Died on <%= creature.updated_at %>
+          <% end %>
+        </td>
+        <td class="event_td">
+          <%@events.map do |k,v|  %>
+              <% if (creature.has_ring? && [:receive_ring, :goes_away].include?(k)) || (k == :receive_ring && !creature.has_ring? && (creature.latitude.to_f != Ring.instance.latitude.to_f || creature.longitude.to_f != Ring.instance.longitude.to_f)) %>
+
+              <% elsif k == :died %>
+                  <div id="event_div<%=creature.id%>_<%=k%>" style="display:none">
+                    <%= render :partial => 'killer_form', :locals => {:'@event'=> k, :'@cid' => creature.id} %>
+                  </div>
+              <% else %>
+                  <div id="event_div<%=creature.id%>_<%=k%>" style="display:none">
+                    <%= render :partial => 'position_form', :locals => {:'@event'=> k, :'@cid' => creature.id} %>
+                  </div>
+              <% end %>
+          <% end %>
+        </td>
+        <td><%#= link_to 'Destroy', creature, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+  <% end %>
 </table>
-
-<br />
-
-<%= link_to 'New Creature', new_creature_path %>
+<%else%>
+    No Creature Exists. Please <%= link_to 'Create New Creature', new_creature_path %> first!
+<% end %>

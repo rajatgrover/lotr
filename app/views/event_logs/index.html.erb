@@ -1,7 +1,16 @@
+<%= link_to 'home', root_path %>
+<%= link_to "Creatures", creatures_path %>
+<%= link_to "Creature History", creature_histories_path %>
 <h1>Listing event_logs</h1>
+<h3> Ring's latitude: <%= Ring.instance.latitude %></h3>
+<h3> Ring's longitude: <%= Ring.instance.longitude %></h3>
+<br />
+<br />
 
+<% if @event_logs.present? %>
 <table>
   <tr>
+    <th>Id</th>
     <th>Event</th>
     <th>Annotation</th>
     <th>Reference</th>
@@ -15,19 +24,23 @@
 
 <% @event_logs.each do |event_log| %>
   <tr>
+    <td><%= event_log.id %></td>
     <td><%= event_log.event %></td>
     <td><%= event_log.annotation %></td>
     <td><%= event_log.reference_id %></td>
     <td><%= event_log.reference_type %></td>
     <td><%= event_log.created_at %></td>
-    <td><%= event_log.created_by %></td>
-    <td><%= link_to 'Show', event_log %></td>
-    <td><%= link_to 'Edit', edit_event_log_path(event_log) %></td>
-    <td><%= link_to 'Destroy', event_log, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= event_log.creator.name %></td>
+    <td><%#= link_to 'Show', event_log %></td>
+    <td><%#= link_to 'Edit', edit_event_log_path(event_log) %></td>
+    <td><%#= link_to 'Destroy', event_log, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>
+<% else %>
+    No Event Logs Exists. Please <%= link_to 'Create New Creature', new_creature_path %> first!
+<% end %>
 
 <br />
 
-<%= link_to 'New Event log', new_event_log_path %>
+<%#= link_to 'New Event log', new_event_log_path %>

@@ -1,0 +1,27 @@
+<%= form_tag url_for("/creatures/execute_event"), onsubmit: "return validate_killer_id(this)" do |f| %>
+    <table>
+      <tr>
+      	<td><%= hidden_field_tag 'event', @event  %></td>
+      	<td><%= hidden_field_tag 'cid', @cid  %></td>
+        <td><%= text_field_tag "killed_by", nil, :placeholder => "Enter Killer Id", :class => 'input-small' %></td>
+
+        <td><%= submit_tag 'Execute', class: 'btn btn-success' %></td>
+       </tr>
+    </table>
+<% end %>
+
+
+<script type="text/javascript">
+    function validate_killer_id(thisObj) {
+        var killer_id = $(thisObj).children().siblings('table').children().children().children().siblings().children('input#killed_by').val();
+        alert(killer_id)
+        if (killer_id == undefined || killer_id == "") {
+            alert('Invalid Killer Id');
+            return false;
+        }
+        $(thiObj).parent().hide();
+        alert(killer_id)
+        return false;
+//        return true;
+    }
+</script>

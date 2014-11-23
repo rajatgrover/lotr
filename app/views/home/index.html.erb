@@ -1,2 +1,21 @@
 <h1>Welcome to LOTR</h1>
+<h3>
+  <% if Ring.instance.alone? %>
+    Ring is Alone.
+  <% else %>
+    Ring is with <%= Ring.instance.creature.name %>
+  <% end %>
+</h3>
+<h3> Ring's latitude: <%= Ring.instance.latitude %></h3>
+<h3> Ring's longitude: <%= Ring.instance.longitude %></h3>
 <p>Followings are the list of main urls in this application.</p>
+
+<ul>
+  <li><%= link_to "Creatures", creatures_path %></li>
+  <li><%= link_to "Creature History", creature_histories_path %></li>
+  <li><%= link_to "Event Logs", event_logs_path %></li>
+</ul>
+
+
+
+

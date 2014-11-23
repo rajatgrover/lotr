@@ -1,0 +1,29 @@
+<%= form_tag url_for("/creatures/execute_event"), onsubmit: "return validate_fields(this)" do |f| %>
+    <table>
+      <tr>
+      	<td><%= hidden_field_tag 'event', @event  %></td>
+      	<td><%= hidden_field_tag 'cid', @cid  %></td>
+        <td><%= text_field_tag "latitude", nil, :placeholder => "Enter latitude", :class => 'input-small' %></td>
+        <td><%= text_field_tag "longitude", nil, :placeholder => "Enter longitude", :class => 'input-small' %></td>
+
+        <td><%= submit_tag 'Execute', class: 'btn btn-success' %></td>
+       </tr>
+    </table>
+<% end %>
+
+
+<script type="text/javascript">
+    function validate_fields(thisObj) {
+        var latitude = $(thisObj).children().siblings('table').children().children().children().siblings().children('input#latitude').val();
+        var longitude = $(thisObj).children().siblings('table').children().children().children().siblings().children('input#longitude').val();
+        if (latitude == undefined || latitude == "") {
+            alert('Invalid latitude');
+            return false;
+        }else if (longitude == undefined || longitude == "") {
+            alert('Invalid longitude');
+            return false;
+        }
+        $(thiObj).parent().hide();
+        return true;
+    }
+</script>

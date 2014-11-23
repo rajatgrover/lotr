@@ -5,7 +5,11 @@ Lotr::Application.routes.draw do
   resources :event_logs
 
 
-  resources :creatures
+  resources :creatures do 
+    collection do
+      post 'execute_event'
+    end
+  end
 
 
   get "home/index"
